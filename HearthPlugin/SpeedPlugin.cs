@@ -11,11 +11,12 @@ using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using System;
 using System.Runtime.InteropServices;
+using Blizzard.T5.Core.Time;
 
 namespace HearthPlugin
 {
     //插件描述特性 分别为 插件ID 插件名字 插件版本(必须为数字)
-    [BepInPlugin("HearthPlugin", "SpeedPlugin", "1.3")]
+    [BepInPlugin("HearthPlugin", "SpeedPlugin", "2.0")]
     [BepInProcess("Hearthstone.exe")]
     public class SpeedPlugin : BaseUnityPlugin //继承BaseUnityPlugin
     {
@@ -85,11 +86,11 @@ namespace HearthPlugin
             HotKey = Config.Bind<KeyCode>("config", "Hotkey", KeyCode.F8, "插件信息界面的快捷键");
             enableBattleConfig = Config.Bind<bool>("config", "enableBattle", true, "酒馆战斗动画加速开关");
             EnableBattle = enableBattleConfig.Value;
-            VersionInfoConfig = Config.Bind<string>("config", "VersionInfo", "炉石插件V1.3", "版本信息");
-            VersionInfoConfig.Value = "炉石插件V1.3";
+            VersionInfoConfig = Config.Bind<string>("config", "VersionInfo", "炉石插件V2.0", "版本信息");
+            VersionInfoConfig.Value = "炉石插件V2.0";
             if (EnableKey)
             {
-                VersionInfo = "炉石插件VIP版V1.3";
+                VersionInfo = "炉石插件VIP版V2.0";
             }
             else
             {
@@ -269,7 +270,7 @@ namespace HearthPlugin
             {
                 if (IsShow)
                 {
-                    GUILayout.Window(666, new Rect(50, 50, 200, 200), GUIplugFunc, VersionInfo);
+                    GUI.Window(666, new Rect(50, 50, 250, 300), GUIplugFunc, VersionInfo);
                 }
             }
 
@@ -279,21 +280,22 @@ namespace HearthPlugin
         {
 
             GUILayout.BeginHorizontal();
-            GUILayout.BeginVertical(GUI.skin.box);
-            GUILayout.Label(VersionInfo);
-            GUILayout.Label("炉石插件交流qq群：865615441");
-            GUILayout.Label("快捷键信息：\n" +
+            GUILayout.BeginVertical(new GUIContent(),GUI.skin.box);
+            GUILayout.Label(new GUIContent(VersionInfo));
+            GUILayout.Label(new GUIContent("炉石插件交流qq群：865615441"));
+            GUILayout.Label(new GUIContent("快捷键信息：\n" +
                             "酒馆整活动画加速开关:F1 \n"+
                             "酒馆战斗动画加速开关:F2 \n"+
-                            "跳过动画开关：F3 \n"+"插件信息界面开关:F8");
+                            "跳过动画开关：F3 \n"+"插件信息界面开关:F8"));
             if (ExpireTime != null || !ExpireTime.Equals(""))
             {
-                GUILayout.Label("过期时间：" + ExpireTime);
+                
+                GUILayout.Label(new GUIContent("过期时间：" + ExpireTime));
             }
 
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal(GUI.skin.box);
+            GUILayout.BeginHorizontal(new GUIContent(), GUI.skin.box);
             if (GUILayout.Button("整活动画", GUILayout.Width(80)))
             {
                 IsEnabled = !IsEnabled;
@@ -325,7 +327,7 @@ namespace HearthPlugin
                 }
             }
             GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal(GUI.skin.box);
+            GUILayout.BeginHorizontal(new GUIContent(), GUI.skin.box);
             if (GUILayout.Button("跳过动画", GUILayout.Width(80)))
             {
                 if (IsInBattleGround)
